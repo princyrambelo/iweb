@@ -1,0 +1,15 @@
+<ion-content>
+<ion-item style="margin-top:60px;"><div style=" text-align:center;  margin :auto; width: 60%; height: 100%; ">
+  <h3>Repporting</h3>  
+  <h5 style="text-align:left;">Titre</h5>
+  <form  style="text-align:center; " (ngSubmit)="envoie(formreporting.value)" [formGroup]="formreporting">
+  <input type="text"  formControlName="tittle" style=" border: solid 1px; float: left; ">
+  
+  <textarea style="width: 100%; margin-top: 50px; 
+  height: 200px;" type="text" placeholder="Rapport" formControlName="contenu"></textarea>
+  <ion-button color="primary" style=" margin-top:25px;" type="ngSubmit">Envoyer</ion-button>
+</form>
+</div>
+</ion-item>
+
+</ion-content>

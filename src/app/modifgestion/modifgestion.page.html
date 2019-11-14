@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>modifgestion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-item style="margin:auto;">
+  <form  style="text-align:center; " (ngSubmit)="update(formupdate.value)" [formGroup]="formupdate">
+    <h3>Id utilisateur</h3>
+    <h3>Nom</h3>
+    <input type="text"  formControlName="nom" style=" border: solid 1px; float: left; ">
+    <h3>Prenom</h3>
+    <input type="text"  formControlName="prenom" style=" border: solid 1px; float: left; ">
+    <h3>Type utilisateur</h3>
+    <input type="text"  formControlName="type" style=" border: solid 1px; float: left; ">
+    <h3>Login</h3>
+    <input type="text"  formControlName="login" style=" border: solid 1px; float: left; ">
+    <h3>Date de naissance</h3>
+    <input type="text"  formControlName="date" style=" border: solid 1px; float: left; ">
+  </form>
+</ion-item>
+</ion-content>

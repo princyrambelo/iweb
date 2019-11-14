@@ -1,0 +1,7 @@
+{
+  "name": "appsecurite",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

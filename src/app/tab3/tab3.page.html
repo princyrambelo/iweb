@@ -1,0 +1,14 @@
+    <ion-content style="height:auto; width: 128%; margin-top: 128px;"   >
+        <div #map id="map"  style="height:300px; width: 300px; margin-left: 65px; margin-top: 85px;"></div>
+          <ion-item>
+        <ion-list padding  style="height:auto; margin-top: 70px; width: 100%;" >
+            <h2 style="margin-bottom: 57px;">Listes de tous les agents</h2>
+          <ion-item *ngFor="let items of user" >
+            <div  style="margin-bottom: 35px"><p style="margin:0"><b>Id utilisateur: </b>{{items.idagent}} &nbsp;&nbsp;</p> <p style="margin:0"> <b>Nom: </b>{{items.nomagent}} &nbsp;&nbsp; </p> <p style="margin:0"><b>Prénom: </b>{{items.prenomagent}}</p>
+              <p style="margin:0"><b>Login: </b>{{items.login}} &nbsp;&nbsp;</p><p style="margin:0"><b>Date de naissance: </b>{{items.datenaissance}} &nbsp;&nbsp;</p><p style="margin:0"><b>Type utilisateur: </b>{{items.type}} &nbsp;&nbsp;</p>
+            </div>
+            <ion-button color="secondary" (click)="selection(items.idagent); ">Selectionner</ion-button>
+          </ion-item>
+        </ion-list>
+        </ion-item>
+      </ion-content>

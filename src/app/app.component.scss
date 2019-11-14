@@ -1,0 +1,46 @@
+page-login {
+	$item-height: 50px;
+	$item-font-size: 18px;
+	$break-small: 700px;
+	$screen-s1:425px;
+
+	#fintek_logo {
+		display: block;
+		width: 20%;
+		margin: 5% auto;
+		min-width: 150px;
+	}
+
+	form {
+
+		.item-md {
+	    width: 72%;
+	    height: $item-height;
+	    font-size: $item-font-size!important;
+	    font-weight: 520;
+    	padding-right: 8%;
+		  @media screen and (max-width: $break-small) {
+		    width: 85%;
+		  }
+		}
+
+		ion-icon {
+	    font-size: 0.8em;
+		}
+
+		.text-input {
+			text-align: center;
+		}
+	}
+
+	.button-md {
+		height: $item-height!important;
+		margin: 30px auto;
+		width: 55%;
+		font-size: $item-font-size!important;
+	}
+
+
+	
+
+}

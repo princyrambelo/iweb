@@ -1,0 +1,9 @@
+.native-textarea.sc-ion-textarea-md {
+    padding-left: unset;
+    padding-right: unset;
+    -webkit-padding-start: var(--padding-start);
+    padding-inline-start: var(--padding-start);
+    -webkit-padding-end: var(--padding-end);
+    padding-inline-end: var(--padding-end);
+    height: 100%;
+}

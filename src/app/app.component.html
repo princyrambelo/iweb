@@ -1,0 +1,70 @@
+
+<ion-content padding has-header *ngIf="!connect">
+  <h1 style="text-align:center; margin-bottom: 80px;">Authentification</h1>
+    <ion-col size="3"  size-md></ion-col>
+    <ion-col size="6"  size-md>
+    <form  style="text-align:center; " (ngSubmit)="login(form.value)" [formGroup]="form">
+      <ion-item>
+        <ion-label><ion-icon name="key"></ion-icon></ion-label>
+        <ion-input type="text"  formControlName="login" placeholder="Login"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><ion-icon name="key"></ion-icon></ion-label>
+        <ion-input type="password"  formControlName="password" placeholder="Mot de passe"></ion-input>
+      </ion-item>
+      <ion-button color="primary" style="margin-top: 50px;" type="ngSubmit">Se connecter</ion-button>
+    </form>
+    <div style="margin-top:20px; text-align:center; margin-bottom:20px;" *ngIf="showMessagemdp">
+      Login incorrecte
+    </div>
+    <div style="text-align:center; margin-top:20px; margin-bottom:20px;" *ngIf="showMessageerrervide">
+      Mot de passe ou login vide
+    </div>
+    <div style="text-align:center; margin-top:20px; margin-bottom:20px;" *ngIf="showMessageerrer">
+      Mot de passe ou login incorrect
+    </div>
+  </ion-col>
+  <ion-button expand='block' margin >Click to scan a qrcode</ion-button>
+  <ion-col size="3"  size-md></ion-col>
+</ion-content>
+<ion-app *ngIf="connect">
+    <ion-header style="margin-bottom:-5px;">
+        <ion-toolbar>
+          <ion-title>
+            <h2>Appsecurity
+            <ion-button color="primary" style="float: right; margin-top:-7px;" tab="tabs/tab1"  (click)="deconnexion()">Deconnexion</ion-button>
+          </h2>
+          </ion-title>  
+        </ion-toolbar>
+      </ion-header>
+  <ion-router-outlet style="margin-top:110px;"></ion-router-outlet>
+  <ion-tabs>
+
+    <ion-tab-bar >
+        <ion-tab-button tab="tabs/tab1" style="color:cornflowerblue">
+            <ion-icon name="grid"></ion-icon>
+            <ion-label>Accueil</ion-label>
+        </ion-tab-button>
+      <ion-tab-button tab="tabs/repporting" *ngIf=agent1>
+        <ion-icon name="paper"></ion-icon>
+        <ion-label>Repporting</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="tabs/planning" *ngIf=agent1>
+        <ion-icon name="tablet-portrait"></ion-icon>
+        <ion-label>Planning et consigne assigné</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="tabs/gestionagent" *ngIf=soustraitant>
+        <ion-icon name="calculator"></ion-icon>
+        <ion-label>Gestion accés et information</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="tabs/tab3" *ngIf=soustraitant>
+        <ion-icon name="list"></ion-icon>
+        <ion-label>Historique</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="tabs/tab2" *ngIf=client>
+        <ion-icon name="body"></ion-icon>
+        <ion-label>Doléance</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs>
+</ion-app>
