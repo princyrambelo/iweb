@@ -31,7 +31,7 @@
     <ion-header style="margin-bottom:-5px;">
         <ion-toolbar>
           <ion-title>
-            <h2>Appsecurity
+            <h2> <a (click)="accueil()">Appsecurity</a>
             <ion-button color="primary" style="float: right; margin-top:-7px;" tab="tabs/tab1"  (click)="deconnexion()">Deconnexion</ion-button>
           </h2>
           </ion-title>  
@@ -39,12 +39,7 @@
       </ion-header>
   <ion-router-outlet style="margin-top:110px;"></ion-router-outlet>
   <ion-tabs>
-
     <ion-tab-bar >
-        <ion-tab-button tab="tabs/tab1" style="color:cornflowerblue">
-            <ion-icon name="grid"></ion-icon>
-            <ion-label>Accueil</ion-label>
-        </ion-tab-button>
       <ion-tab-button tab="tabs/repporting" *ngIf=agent1>
         <ion-icon name="paper"></ion-icon>
         <ion-label>Repporting</ion-label>
@@ -56,6 +51,10 @@
       <ion-tab-button tab="tabs/gestionagent" *ngIf=soustraitant>
         <ion-icon name="calculator"></ion-icon>
         <ion-label>Gestion accés et information</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="tabs/assigne" *ngIf=soustraitant>
+        <ion-icon name="tablet-portrait"></ion-icon>
+        <ion-label>Assignation planning et consigne</ion-label>
       </ion-tab-button>
       <ion-tab-button tab="tabs/tab3" *ngIf=soustraitant>
         <ion-icon name="list"></ion-icon>

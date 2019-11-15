@@ -1,23 +1,17 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>modifgestion</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-<ion-item style="margin:auto;">
-  <form  style="text-align:center; " (ngSubmit)="update(formupdate.value)" [formGroup]="formupdate">
-    <h3>Id utilisateur</h3>
-    <h3>Nom</h3>
-    <input type="text"  formControlName="nom" style=" border: solid 1px; float: left; ">
-    <h3>Prenom</h3>
-    <input type="text"  formControlName="prenom" style=" border: solid 1px; float: left; ">
-    <h3>Type utilisateur</h3>
-    <input type="text"  formControlName="type" style=" border: solid 1px; float: left; ">
-    <h3>Login</h3>
-    <input type="text"  formControlName="login" style=" border: solid 1px; float: left; ">
-    <h3>Date de naissance</h3>
-    <input type="text"  formControlName="date" style=" border: solid 1px; float: left; ">
+  <ion-item style="margin-top:-45px;"><div style=" text-align:center; margin :auto; width: 60%; height: 42%; ">
+    <h3>Assignation planning</h3>  
+    <h5 style="text-align:left;">Consigne</h5>
+    <form  style="text-align:center; " (ngSubmit)="envoieplanning(formplanning.value)" [formGroup]="formplanning">
+    <input type="text"  formControlName="consigne" style=" border: solid 1px; float: left; ">
+    <h5 style="text-align:left;">Agent</h5>
+    <select class="dropdown-primary" matNativeControl required formControlName="idagent">
+      <option>Agent</option>
+    </select>
+    <h5 style="text-align:left;">Place</h5>
+    <input type="text"  formControlName="position" style=" border: solid 1px; float: left; ">
+    <ion-button color="primary" style=" margin-top:25px;" type="ngSubmit">Envoyer</ion-button>
   </form>
-</ion-item>
+  </div>
+  </ion-item>
 </ion-content>

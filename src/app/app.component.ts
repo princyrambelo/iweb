@@ -103,6 +103,9 @@ export class AppComponent  implements OnInit {
     //   this.splashScreen.hide();
     // });
   }
+  accueil(){
+    this.router.navigate(['tabs/tab1']);
+  }
   public deconnexion()
   {
     localStorage.removeItem('login');
@@ -143,11 +146,11 @@ export class AppComponent  implements OnInit {
         // console.log(this.agent);
      
         for (let index = 0; index < this.agent.length; index++) {
-          // console.log(this.agent[index].login);
           if ((this.agent[index].login ==value.login)&&(this.agent[index].mdp==value.password)){
             this.storage.set('login', this.agent[index].idagent).then(() => {});
             this.storage.set('type', this.agent[index].type).then(() => {});
              this.storage.set('idagent', this.agent[index].idagent).then(() => {});
+             this.storage.set('soustraitant', this.agent[index].soustraitant).then(() => {});
              if(this.agent[index].type=="agent"){
                   this.agent1=true;
                   this.soustraitant=false;

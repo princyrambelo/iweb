@@ -2,12 +2,12 @@
 <ion-item style="margin-top:10px;">
 <div style="  text-align:center; margin :auto; width: 60%; height: 42%; margin-top: 59px; ">
   <h3>Gestion des information et accés des agents</h3>  
-  <ion-button  color="primary" style="margin-right: -500px;" (click)="ajout()">Ajout utilisateur</ion-button>
+  <ion-button  color="primary" style="margin-right: -180px;" (click)="ajout()">Add</ion-button>
   <!-- style="margin-bottom: -100px;" -->
   
   <ion-item style="height:811px; width: 128%; margin-top: 42px;" *ngIf=ajout1>
-    <h2 style="margin-bottom:555px;">Ajout utilisateur</h2>
-    <form (ngSubmit)="add(formadd.value)"  [formGroup]="formadd" >
+    <h2 style="margin-bottom:615px;">Ajout utilisateur</h2>
+    <form (ngSubmit)="add(formadd.value)" style="margin-top:44px; margin-left: -120px" [formGroup]="formadd" >
       <input type="hidden" formControlName="keadd"  >
       <input type="hidden"  formControlName="mdpadd"  >
       <h3>Id utilisateur</h3>
@@ -17,7 +17,6 @@
        <h3>Prenom</h3>
        <input type="text"  formControlName="prenomadd" >
        <h3>Type utilisateur</h3>
-       <!-- <input type="text" formControlName="typeadd" > -->
           <select class="dropdown-primary" matNativeControl required formControlName="typeadd">
             <option value="agent">Agent</option>
             <option value="soustraitant">Sous traitant</option>
@@ -30,27 +29,28 @@
        <input type="text" formControlName="dateadd" >
        <h3>Mot de passe</h3>
        <input type="password" formControlName="mdpadd" >
-       <ion-button  color="primary" type="submit" >Inserer</ion-button>
-       <ion-button  color="primary"  (click)="fermer()" >Annuler</ion-button>
+       <ion-button style="margin-top:12px; margin-right: 33px;text-align:center" color="primary" type="submit" >Inserer</ion-button>
+       <ion-button  color="primary" style=" margin-left: -153px;  margin: inherit;  text-align:center" (click)="fermer()" >Annuler</ion-button>
      </form>  
    </ion-item>
   <ion-item style="height:811px; width: 128%; margin-top: 42px;" *ngIf=modifi>
-    <h2 style="margin-bottom:555px;">Modification utilisateur</h2>
-      <form (ngSubmit)="logForm(formupdate.value)"  [formGroup]="formupdate" >
-        <input type="hidden" value={{ke}} formControlName="ke"  >
-        <input type="hidden" value={{mdp}} formControlName="mdp"  >
+    <h2 style="margin-bottom:555px; ">Modification utilisateur</h2>
+      <form (ngSubmit)="logForm(formupdate.value)" style="margin-top:20px; margin-left: -120px"  [formGroup]="formupdate" >
+        <input type="hidden" [(ngModel)]="ke" formControlName="ke"  >
+        <input type="hidden" [(ngModel)]="mdp" formControlName="mdp"  >
+        <input type="hidden" [(ngModel)]="soustraitant" formControlName="soustraitant"  >
         <h3>Id utilisateur</h3>
-         <input type="text" value={{id}} formControlName="id"  >
+         <input type="text" [(ngModel)]="id" formControlName="id"  >
          <h3>Nom</h3>
-         <input type="text" value={{nom}} formControlName="nom" >
+         <input type="text" [(ngModel)]="nom" formControlName="nom" >
          <h3>Prenom</h3>
-         <input type="text" value={{prenom}}  formControlName="prenom" >
+         <input type="text" [(ngModel)]="prenom"  formControlName="prenom" >
          <h3>Type utilisateur</h3>
-         <input type="text" value={{type}} formControlName="type" >
+         <input type="text" [(ngModel)]="type" formControlName="type" >
          <h3>Login</h3>
-         <input type="text" value={{login}} formControlName="login" >
+         <input type="text" [(ngModel)]="login" formControlName="login" >
          <h3>Date de naissance</h3>
-         <input type="text" value={{date}} formControlName="date" >
+         <input type="text" [(ngModel)]="date" formControlName="date" >
          <ion-button  color="primary" type="submit" >Enregistrer</ion-button>
          <ion-button  color="primary"  (click)="fermer()" >Annuler</ion-button>
        </form>  
@@ -61,7 +61,7 @@
       <ion-item *ngFor="let items of user" >
         <div  style="margin-bottom: 35px"><p style="margin:0"><b>Id utilisateur: </b>{{items.idagent}} &nbsp;&nbsp;</p> <p style="margin:0"> <b>Nom: </b>{{items.nomagent}} &nbsp;&nbsp; </p> <p style="margin:0"><b>Prénom: </b>{{items.prenomagent}}</p>
           <p style="margin:0"><b>Login: </b>{{items.login}} &nbsp;&nbsp;</p><p style="margin:0"><b>Date de naissance: </b>{{items.datenaissance}} &nbsp;&nbsp;</p><p style="margin:0"><b>Type utilisateur: </b>{{items.type}} &nbsp;&nbsp;</p>
-          <ion-button color="secondary" (click)="modif(items.k,items.idagent,items.nomagent,items.prenomagent,items.login,items.datenaissance,items.type,items.mdp)">Modifier</ion-button><ion-button color="success" (click)="deleteuser(items.k)">Effacer</ion-button>
+          <ion-button color="secondary" (click)="modif(items.k,items.idagent,items.nomagent,items.prenomagent,items.login,items.datenaissance,items.type,items.mdp,items.soustraitant)">Modifier</ion-button><ion-button color="success" (click)="deleteuser(items.k)">Effacer</ion-button>
           <div style= "background-color: lightsalmon; height: 50px;" *ngIf="showDeleteMessage">
             suppression réussi !
           </div>

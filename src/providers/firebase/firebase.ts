@@ -16,7 +16,7 @@ export class FirebaseProvider {
     //private alertCtrl: AlertController
   	) {
   }
-  reportingList: AngularFireList<any> = this.firebase.list('repporting');
+  reportingList: AngularFireList<any> = this.firebase.list('reporting');
   planningList : AngularFireList<any> = this.firebase.list('planning');
   getutilisateur : AngularFireList<any> = this.firebase.list('utilisateur');
   getTransactionHistory() {
@@ -37,17 +37,19 @@ this.planningList = this.firebase.list('planning')
     return this.planningList.snapshotChanges(); 
 }
   getreporting() {
-    this.reportingList = this.firebase.list('repporting');
+    this.reportingList = this.firebase.list('reporting');
     return this.reportingList.snapshotChanges();
   }
-  insertreporting(reporting,lat,long,date,id) {
+  insertreporting(reporting,lat,long,date,id,sous) {
     this.reportingList.push({
       tittle: reporting.tittle,
       logitude: long,
       latitude: lat,
       contenu: reporting.contenu,
       idagent:id,
-      date:date
+      idsoustraitant:sous,
+      date:date,
+     
     });
   }
   deleteusers(ey) {
@@ -65,7 +67,7 @@ this.planningList = this.firebase.list('planning')
         mdp:user.mdp
       })
   }
-  insertuser(add) {
+  insertuser(add,sous) {
     this.getutilisateur.push({
       idagent:add.idadd,
         nomagent: add.nomadd,
@@ -73,7 +75,9 @@ this.planningList = this.firebase.list('planning')
         datenaisance: add.dateadd,
         type: add.typeadd,
         login:add.loginadd,
+        soustraitant:sous,
         mdp:add.mdpadd
+        
     });
   }
 }

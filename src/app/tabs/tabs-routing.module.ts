@@ -78,6 +78,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'assigne',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../assigne/assigne.module').then(m => m.AssignePageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

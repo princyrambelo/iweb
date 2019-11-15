@@ -18,6 +18,7 @@ export class GestionagentPage implements OnInit{
   ke:any;
   idsous:any;
   id:any;
+  initzero:any=0;
   mdp:any;
   user:any;
   nom:any;
@@ -27,6 +28,7 @@ export class GestionagentPage implements OnInit{
   type:any;
   ajout1:boolean=false;
   modifi:boolean;
+  soustraitant:any;
   soustraitantgestion:boolean;
   clientgestion:boolean;
   users:any;
@@ -42,6 +44,7 @@ export class GestionagentPage implements OnInit{
       nom: ['',Validators.required],
       type: ['',Validators.required],
       mdp: ['',Validators.required],
+      soustraitant: ['',Validators.required],
     });
     this.formadd = formBuilder.group({
       keadd: ['',Validators.required],
@@ -58,16 +61,24 @@ export class GestionagentPage implements OnInit{
     this.init(); this.getutilisateur();
   }
   add(add){
-    this.fire.insertuser(add);
+   
+    this.storage.get('idagent').then((sessionrepport: any) => { console.log(add.typeadd); if(add.typeadd=="agent"){this.fire.insertuser(add,sessionrepport);}
+    else{
+      this.fire.insertuser(add,this.initzero)
+    } 
+    }).catch(() => {
+    });
+   
   }
   ajout(){
     this.ajout1=true;
+    this.modifi=false;
   }
   fermer() {
     this.modifi=false;
     this.ajout1=false;
   }
-  modif(ke,id,nomagent,prenomagent,login,datenaissance,type,mdp){
+  modif(ke,id,nomagent,prenomagent,login,datenaissance,type,mdp,sous){
     this.ke=ke;
     this.id=id;
     this.nom=nomagent;
@@ -76,8 +87,8 @@ export class GestionagentPage implements OnInit{
     this.date=datenaissance;
     this.type=type;
     this.mdp=mdp;
+    this.soustraitant=sous;
     this.modifi=true;
-
   }
   init(){ this.storage.get('type').then((sessiongestion: any) => { 
     if(sessiongestion=="agent"){

@@ -1,0 +1,17 @@
+<ion-content>
+  <div style="margin-top:76px; height: 500px" ><div class="item-native" style=" text-align:center; margin :auto; width: 60%; height: 82%; ">
+    <h3 style="margin-bottom: 39px;">Assignation planning</h3>  
+    <h5 style="width: 91px; margin-left: 32px;">Consigne</h5>
+    <form  style="text-align:center; " (ngSubmit)="envoieplanning(formplanning.value)" [formGroup]="formplanning">
+    <input type="text"  formControlName="consigne" style=" border: solid 1px; ">
+    <h5 style="margin-top: 36px; width: 65px; margin-left: 32px;">Agent</h5>
+    <select class="dropdown-primary" style="width: 182px;" matNativeControl required formControlName="idagent">
+      <option>Agent</option>
+    </select>
+    <h5 style="width: 65px; margin-left: 32px;">Place</h5>
+    <input type="text"  formControlName="position" style=" border: solid 1px;">
+    <ion-button color="primary" style=" margin-top:25px;" type="ngSubmit">Envoyer</ion-button>
+  </form>
+  </div>
+</div>
+</ion-content>

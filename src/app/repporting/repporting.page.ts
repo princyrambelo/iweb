@@ -67,8 +67,11 @@ export class RepportingPage implements OnInit {
 
  
   envoie(value){
-    this.today = new Date().toISOString();
-    this.fire.insertreporting(value, this.latitude, this.longitude,this.today,this.agentid);
+    this.storage.get('soustraitant').then((sessionid: any) => {  this.today = new Date().toISOString();
+      this.fire.insertreporting(value, this.latitude, this.longitude,this.today,this.agentid,sessionid);
+    }).catch(() => {
+    });
+   
   }
 
 //AIzaSyCU3xdLv4dIUEuBdl8H5-76iqQ-QxUnjj8 

@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'planning', loadChildren: './planning/planning.module#PlanningPageModule' },
   { path: 'gestionagent', loadChildren: './gestionagent/gestionagent.module#GestionagentPageModule' },
   { path: 'modifgestion', loadChildren: './modifgestion/modifgestion.module#ModifgestionPageModule' },
-  { path: 'setting', loadChildren: './setting/setting.module#SettingPageModule' }
+  { path: 'setting', loadChildren: './setting/setting.module#SettingPageModule' },
+  { path: 'assigne', loadChildren: './assigne/assigne.module#AssignePageModule' }
 ];
 @NgModule({
   imports: [
