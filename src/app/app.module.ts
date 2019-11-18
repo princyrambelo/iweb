@@ -14,6 +14,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { FirebaseProvider } from '../providers/firebase/firebase';
 import { IonicStorageModule } from '@ionic/storage';
+import { GoogleMaps } from "@ionic-native/google-maps";
 import { Camera } from '@ionic-native/camera';
 // import { QRScanner,QRScannerStatus } from '@ionic-native/qr-scanner';
 @NgModule({
@@ -25,11 +26,13 @@ import { Camera } from '@ionic-native/camera';
     IonicStorageModule.forRoot(),
     AngularFireStorageModule,
     ReactiveFormsModule,
+    
     // QRScanner,
     IonicModule.forRoot(), AppRoutingModule],
   providers: [
     StatusBar,
     Geolocation,
+    GoogleMaps,
     // Camera,
     FirebaseProvider,
     SplashScreen,

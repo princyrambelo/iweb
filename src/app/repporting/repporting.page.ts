@@ -4,7 +4,7 @@ import { FirebaseProvider } from 'src/providers/firebase/firebase';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-repporting',
   templateUrl: './repporting.page.html',
@@ -15,6 +15,8 @@ export class RepportingPage implements OnInit {
   formreporting : FormGroup;
   today:any;
   agentid:any;
+  showMessagesuccesrep:boolean;
+  showMessagesucceserrorrep:boolean;
   agent1repport:boolean;
   soustraitantrepport:boolean;
   clientrepport:boolean;
@@ -67,8 +69,18 @@ export class RepportingPage implements OnInit {
 
  
   envoie(value){
-    this.storage.get('soustraitant').then((sessionid: any) => {  this.today = new Date().toISOString();
-      this.fire.insertreporting(value, this.latitude, this.longitude,this.today,this.agentid,sessionid);
+    this.storage.get('soustraitant').then((sessionid: any) => {  console.log(sessionid);
+      if(this.formreporting.valid){
+        let d = new Date()
+        let today = moment(d).format("DD-MM-YYYY A hh:mm");
+      this.fire.insertreporting(value, this.latitude, this.longitude,today,this.agentid,sessionid);
+      this.showMessagesuccesrep=true;
+      setTimeout(()=> this.showMessagesuccesrep=false , 3000);
+      }
+      else{
+        this.showMessagesucceserrorrep=true;
+        setTimeout(()=> this.showMessagesucceserrorrep=false , 3000);
+      }
     }).catch(() => {
     });
    

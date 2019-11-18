@@ -17,15 +17,10 @@ export class PlanningPage  implements OnInit {
   agent1plan:boolean;
   soustraitantplan:boolean;
   clientplan:boolean;
-  constructor(   public storage: Storage,  public fire: FirebaseProvider) {  
-    this.init();
-    this.getplanning();
-   }
+  constructor(   public storage: Storage,  public fire: FirebaseProvider) {  }
 
   ngOnInit() {
     this.init();
-    this.getplanning();
-    
   }
   init(){ 
     this.storage.get('login').then((sessionsplan: any) => { this.id=sessionsplan; console.log(sessionsplan+'plan'); });
@@ -45,13 +40,14 @@ export class PlanningPage  implements OnInit {
       this.soustraitantplan=false;
       this.clientplan=true;
     }
+    this.getplanning();
   }).catch(() => {
   });}
-  public getplanning(){
+  getplanning(){
             this.fire.getplanning().subscribe(data => {
               this.agent=data.map(e=> {
             if (this.id == e.payload.child('idagent').val()){
-              console.log(this.id);
+              console.log(this.id+'gg');
               console.log(e.payload.child('idagent').val());
               return{  
                 idagent:e.payload.child('idagent').val(),
@@ -59,6 +55,8 @@ export class PlanningPage  implements OnInit {
                 date:e.payload.child('date').val(),
                 position:e.payload.child('position').val(),
                 idplanning:e.payload.child('idplanning').val(),
+                presence:e.payload.child('presence').val(),
+                vue:e.payload.child('vue').val(),
                 status:"ok"
                   }
               }
@@ -68,14 +66,17 @@ export class PlanningPage  implements OnInit {
                   consigne:e.payload.child('consigne').val(),
                   date:e.payload.child('date').val(),
                   position:e.payload.child('position').val(),
-                  idplanning:e.payload.child('idplanning').val()
+                  idplanning:e.payload.child('idplanning').val(),
+                  presence:e.payload.child('presence').val(),
+                  vue:e.payload.child('vue').val(),
                     }                
               }
       
           });
-          this.agentcust = this.agent.filter(function (v) {
+          var agentcu = this.agent.filter(function (v) {
             return (v.status == "ok");
           });
+          this.agentcust=agentcu;
         },
         err => {console.log("erreur de :" + err);
         })

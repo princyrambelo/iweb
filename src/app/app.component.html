@@ -14,53 +14,82 @@
       </ion-item>
       <ion-button color="primary" style="margin-top: 50px;" type="ngSubmit">Se connecter</ion-button>
     </form>
-    <div style="margin-top:20px; text-align:center; margin-bottom:20px;" *ngIf="showMessagemdp">
+    <div style="margin-top:20px; text-align:center; margin-bottom:20px; vertical-align: middle; height: 50px; background-color:lightsalmon;" *ngIf="showMessagemdp">
       Login incorrecte
     </div>
-    <div style="text-align:center; margin-top:20px; margin-bottom:20px;" *ngIf="showMessageerrervide">
+    <div style="text-align:center; margin-top:20px; margin-bottom:20px; vertical-align: middle; height: 50px; background-color:lightsalmon;" *ngIf="showMessageerrervide">
       Mot de passe ou login vide
     </div>
-    <div style="text-align:center; margin-top:20px; margin-bottom:20px;" *ngIf="showMessageerrer">
+    <div style="text-align:center; margin-top:20px; margin-bottom:20px; vertical-align: middle; height: 50px; background-color:lightsalmon;" *ngIf="showMessageerrer">
       Mot de passe ou login incorrect
     </div>
   </ion-col>
-  <ion-button expand='block' margin >Click to scan a qrcode</ion-button>
+  <!-- <ion-button expand='block' margin >Click to scan a qrcode</ion-button> -->
   <ion-col size="3"  size-md></ion-col>
 </ion-content>
 <ion-app *ngIf="connect">
     <ion-header style="margin-bottom:-5px;">
         <ion-toolbar>
           <ion-title>
-            <h2> <a (click)="accueil()">Appsecurity</a>
-            <ion-button color="primary" style="float: right; margin-top:-7px;" tab="tabs/tab1"  (click)="deconnexion()">Deconnexion</ion-button>
+            <h2> <a (click)="accueil()" style="font-size:20px">Appsecurity</a>
+              <a *ngIf="!notif && soustraitant" style="float: inherit;  ">
+                  <ion-icon style="width: 25px; height: 26px; color:lightslategray; margin-left: 15px; margin-bottom: -6px;" name="notifications"></ion-icon>
+                   <ion-label></ion-label>
+              </a>
+                 <a  (click)="shownotif(repportcust)" style="float:inherit;" *ngIf="notif && soustraitant">
+                     <ion-icon style="background-color: indianred; border-radius: 20px; width: 25px; height: 26px; color:bisque; margin-left: 15px; margin-bottom: -6px;" name="notifications"></ion-icon>
+                      <ion-label style="font-size: 17px; margin-bottom: -2px">{{nbrep}}</ion-label>
+                 </a>
+                 <a *ngIf="!notif && agent1" style="float: inherit;  ">
+                    <ion-icon style="width: 25px; height: 26px; color:lightslategray; margin-left: 15px; margin-bottom: -6px;" name="notifications"></ion-icon>
+                     <ion-label></ion-label>
+                </a>
+                   <a (click)="shownotifplan(planningcust)" style="float:inherit;" *ngIf="notif && agent1">
+                       <ion-icon style="background-color: indianred; border-radius: 20px; width: 25px; height: 26px; color:bisque; margin-left: 15px; margin-bottom: -6px;" name="notifications"></ion-icon>
+                        <ion-label style="font-size: 17px; margin-bottom: -2px">{{nbplan}}</ion-label>
+                   </a>  
+            <ion-button color="primary" style="float: right; margin-top:-7px; font-size: 9px; width: 80px;" tab="tabs/tab1"  (click)="deconnexion()">Deconnexion</ion-button>
           </h2>
-          </ion-title>  
+         
+          </ion-title>      
         </ion-toolbar>
+        
       </ion-header>
+      <ion-card class="welcome-card" style="margin-bottom: 261px; height: 41%; z-index: 90;" *ngIf=!visi>
+        <img src="/assets/securite.png" style="width: 94%;" alt="" />
+        <ion-card-header>
+          <ion-card-subtitle>Agent</ion-card-subtitle>
+          <ion-card-title></ion-card-title>
+          
+        </ion-card-header>
+        <ion-card-content>
+          <p></p>
+        </ion-card-content>
+      </ion-card>
   <ion-router-outlet style="margin-top:110px;"></ion-router-outlet>
   <ion-tabs>
     <ion-tab-bar >
-      <ion-tab-button tab="tabs/repporting" *ngIf=agent1>
+      <ion-tab-button tab="tabs/repporting" (click)="but()" *ngIf=agent1>
         <ion-icon name="paper"></ion-icon>
         <ion-label>Repporting</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="tabs/planning" *ngIf=agent1>
+      <ion-tab-button tab="tabs/planning" (click)="but()" *ngIf=agent1>
         <ion-icon name="tablet-portrait"></ion-icon>
-        <ion-label>Planning et consigne assigné</ion-label>
+        <ion-label>Planning assigné</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="tabs/gestionagent" *ngIf=soustraitant>
+      <ion-tab-button tab="tabs/gestionagent" (click)="but()" *ngIf=soustraitant>
         <ion-icon name="calculator"></ion-icon>
-        <ion-label>Gestion accés et information</ion-label>
+        <ion-label>Gestion accés</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="tabs/assigne" *ngIf=soustraitant>
+      <ion-tab-button tab="tabs/assigne" (click)="but()" *ngIf=soustraitant>
         <ion-icon name="tablet-portrait"></ion-icon>
-        <ion-label>Assignation planning et consigne</ion-label>
+        <ion-label>Assignation planning</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="tabs/tab3" *ngIf=soustraitant>
+      <ion-tab-button tab="tabs/tab3" (click)="but()" *ngIf=soustraitant>
         <ion-icon name="list"></ion-icon>
         <ion-label>Historique</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="tabs/tab2" *ngIf=client>
+      <ion-tab-button tab="tabs/tab2" (click)="but()" *ngIf=client>
         <ion-icon name="body"></ion-icon>
         <ion-label>Doléance</ion-label>
       </ion-tab-button>

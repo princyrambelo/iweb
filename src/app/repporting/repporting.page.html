@@ -1,12 +1,18 @@
 <ion-content>
-<ion-item style="margin-top:60px;"><div style=" text-align:center;  margin :auto; width: 60%; height: 100%; ">
+<ion-item style="margin-top:60px; height: auto;"><div style=" text-align:center;  margin :auto; width: 60%; height: auto; ">
   <h3>Repporting</h3>  
   <h5 style="text-align:left;">Titre</h5>
   <form  style="text-align:center; " (ngSubmit)="envoie(formreporting.value)" [formGroup]="formreporting">
-  <input type="text"  formControlName="tittle" style=" border: solid 1px; float: left; ">
+  <input type="text"  formControlName="tittle" style=" border: solid 1px; float: left; " required="required">
   <textarea style="width: 100%; margin-top: 50px; 
-  height: 200px;" type="text" placeholder="Rapport" formControlName="contenu"></textarea>
+  height: 200px;" type="text" placeholder="Rapport" formControlName="contenu" required="required"></textarea>
   <ion-button color="primary" style=" margin-top:25px;" type="ngSubmit">Envoyer</ion-button>
+  <div style= "background-color:lightgreen; height: 50px;" *ngIf="showMessagesuccesrep">
+    Insertion réussi !
+  </div>
+  <div style= "background-color:lightsalmon; height: 50px; margin-top: 25px;" *ngIf="showMessagesucceserrorrep">
+    Champs vide !
+   </div>
 </form>
 </div>
 </ion-item>

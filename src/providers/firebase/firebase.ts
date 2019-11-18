@@ -16,7 +16,7 @@ export class FirebaseProvider {
     //private alertCtrl: AlertController
   	) {
   }
-  reportingList: AngularFireList<any> = this.firebase.list('reporting');
+  reportingList: AngularFireList<any> = this.firebase.list('repporting');
   planningList : AngularFireList<any> = this.firebase.list('planning');
   getutilisateur : AngularFireList<any> = this.firebase.list('utilisateur');
   getTransactionHistory() {
@@ -36,8 +36,33 @@ export class FirebaseProvider {
 this.planningList = this.firebase.list('planning')
     return this.planningList.snapshotChanges(); 
 }
+insertplanning(us,date) {
+  this.planningList.push({
+    consigne: us.consigne,
+    date: date,
+    idagent: us.idagent,
+    position:us.position,
+    idclient:us.client,
+    presence:'false',
+    status:'false',
+    vue:'false'
+  });
+}
+updateplanning(consi,date,idagent,position,client,presence,status,id) {
+  this.planningList.update(id,
+    {
+    consigne: consi,
+    date: date,
+    idagent: idagent,
+    position:position,
+    idclient:client,
+    presence:presence,
+    status:status,
+    vue:'true'
+    })
+}
   getreporting() {
-    this.reportingList = this.firebase.list('reporting');
+    this.reportingList = this.firebase.list('repporting');
     return this.reportingList.snapshotChanges();
   }
   insertreporting(reporting,lat,long,date,id,sous) {
@@ -49,8 +74,22 @@ this.planningList = this.firebase.list('planning')
       idagent:id,
       idsoustraitant:sous,
       date:date,
+      vue:'false'
      
     });
+  }
+  updaterepporting(tit,cont,date,idagent,lat,log,idsous,id) {
+    this.reportingList.update(id,
+      {
+        tittle: tit,
+        logitude: log,
+        latitude: lat,
+        contenu: cont,
+        idagent:idagent,
+        idsoustraitant:idsous,
+        date:date,
+        vue:'true'
+      })
   }
   deleteusers(ey) {
     this.getutilisateur.remove(ey);
@@ -76,7 +115,8 @@ this.planningList = this.firebase.list('planning')
         type: add.typeadd,
         login:add.loginadd,
         soustraitant:sous,
-        mdp:add.mdpadd
+        mdp:add.mdpadd,
+        adresse:add.adresse
         
     });
   }

@@ -9,7 +9,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { InvoicePrint } from 'src/lib/models/invoicePrint'
 import { Router } from '@angular/router';
+import { Tab3Page } from './tab3/tab3.page';
+import { ToastController } from '@ionic/angular';
+import * as moment from 'moment';
+// import { FCM } from '@ionic-native/fcm/ngx';
 
+// import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 // import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 //import { IonicPage, NavController } from 'ionic-angular';
 
@@ -20,8 +25,21 @@ import { Router } from '@angular/router';
   
 })
 export class AppComponent  implements OnInit {
+  notif:boolean;
+  i:any;
+  j:any;
+  nbplan:any;
+  nbrep:any;
+  planning:any;
+  planningcust:any='';
+  repport:any;
+  agenttest:boolean;
+  soustest:boolean;
+  repportcust:any='';
   connect:boolean;
+  rootPage: any;
   agent1:boolean;
+  visi:boolean;
   soustraitant:boolean;
   client:boolean;
   form : FormGroup;
@@ -37,6 +55,8 @@ export class AppComponent  implements OnInit {
   scannedData: {};
   facture: InvoicePrint  = new InvoicePrint();
   constructor(
+    private toastController: ToastController,
+    // private fcm: FCM,
     //  private qrScanCtrl: QRScanner,
     private router: Router,
   private storage: Storage, 
@@ -46,21 +66,32 @@ export class AppComponent  implements OnInit {
     private statusBar: StatusBar,
     public formBuilder : FormBuilder, 
     public fire: FirebaseProvider
+    // ,private localNotifications: LocalNotifications
   ) {
-  
+   
     this.form = formBuilder.group({
       login: ['', Validators.required],
       password: ['',Validators.required],
     });
-    platform.ready().then(() => {
-      statusBar.styleDefault();
-      splashScreen.hide();
+    this.platform.ready().then(() => {
+      this.rootPage = Tab3Page;
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    });
 
-   });
   }
   ngOnInit() {
-    
+   
   }
+ 
+  // async showToast() {
+  //   const toast = await this.toastController.create({
+  //     message: 'Mmmm, buttered toast',
+  //     duration: 1000,
+  //     position: 'bottom',
+  //   });
+  //   toast.present();
+  // }
   // goToQrScan() {
   //   this.qrScanCtrl.prepare()
   //     .then((status: QRScannerStatus) => {
@@ -96,14 +127,20 @@ export class AppComponent  implements OnInit {
   //   this.qrScanCtrl.hide();
   //   this.qrScanCtrl.destroy();
   // }
+  but(){
+    this.visi=true;
+  }
   initializeApp() {
     //this.navCtrl.setRoot('planning');
     // this.platform.ready().then(() => {
     //   this.statusBar.styleDefault();
     //   this.splashScreen.hide();
     // });
+    
+
   }
   accueil(){
+    this.visi=false;
     this.router.navigate(['tabs/tab1']);
   }
   public deconnexion()
@@ -113,19 +150,27 @@ export class AppComponent  implements OnInit {
     localStorage.removeItem('mdp');
     localStorage.removeItem('type');
     localStorage.removeItem('idagent');
+    localStorage.removeItem('soustraitant');
     this.form.reset();
-    this.router.navigate(['tabs/tab1'])
+    this.router.navigate([''])
     setTimeout(function(){
       window.location.reload(); }, 1000);
    
 
   }
   public login(value) {
+    // this.localNotifications.schedule({
+    //   id: 1,
+    //   text: 'Single ILocalNotification',
+    //   // sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
+    //   // data: { secret: key }
+    // });
     localStorage.removeItem('login');
     localStorage.removeItem('name');
     localStorage.removeItem('mdp');
     localStorage.removeItem('type');
     localStorage.removeItem('idagent');
+    localStorage.removeItem('soustraitant');
     this.showMessagemdp=false;
     this.showMessageerrer=false;
     this.showMessageerrervide=false;
@@ -140,6 +185,7 @@ export class AppComponent  implements OnInit {
             datenaissance:e.payload.child('datenaissance').val(),
             mdp:e.payload.child('mdp').val(),
             type:e.payload.child('type').val(),
+            soustraitant:e.payload.child('soustraitant').val(),
           }
         
         });
@@ -166,6 +212,8 @@ export class AppComponent  implements OnInit {
                   this.soustraitant=false;
                   this.client=true;
                 }
+                this.getplanning(this.agent[index].type,this.agent[index].idagent);
+                this.getrepporting(this.agent[index].type,this.agent[index].idagent);
            this.connect1=true;
             
             }
@@ -174,11 +222,13 @@ export class AppComponent  implements OnInit {
       this.connect=true
      }else{
       this.showMessageerrervide=true;
+      setTimeout(()=> this.showMessageerrervide=false , 3000);
      }
        
       },
       err => {console.log("erreur de :" + err);
       this.showMessageerrer=true;
+      setTimeout(()=> this.showMessageerrer=false , 3000);
       }
       )
 
@@ -186,6 +236,7 @@ export class AppComponent  implements OnInit {
     } else {
       console.log("erreur");
       this.showMessageerrervide=true;
+      setTimeout(()=> this.showMessageerrervide=false , 3000);
     }
   }
  
@@ -204,7 +255,6 @@ export class AppComponent  implements OnInit {
         }
       
       });
-      console.log(this.agent);
     },
     err => console.log("erreur de :" + err)
   )      
@@ -235,4 +285,174 @@ export class AppComponent  implements OnInit {
   // })
   // .catch((e: any) => console.log('Error is', e));
   // }
+  async showToastWithCloseButton(data) {
+
+          
+        const toast = await this.toastController.create({
+          message: data,
+          showCloseButton: true,
+          closeButtonText: 'Ok',
+          // duration: 4000,
+        position: 'top',
+          color:'primary',
+          cssClass:'toast-bg'
+        });
+        toast.present();
+  }
+  public getplanning(type,id){
+      if(type=="agent"){
+    this.j=0;
+    this.notif=false;
+    this.fire.getplanning().subscribe(data => {
+      this.planning=data.map(e=> {
+      // let d = new Date();
+      // let today = moment(d).format("DD-MM-YYYY A hh:mm");
+  
+        if (id== e.payload.child('idagent').val()){
+         
+            if (e.payload.child('vue').val()==="false"){
+              this.notif=true;
+              this.j++;
+              return{
+                k:e.key,
+                idagent:e.payload.child('idagent').val(),
+                date:e.payload.child('date').val(),
+                consigne:e.payload.child('consigne').val(),
+                position:e.payload.child('position').val(),
+                presence:e.payload.child('presence').val(),
+                idclient:e.payload.child('idclient').val(),
+                status:e.payload.child('status').val(),
+                tempp: "ok"
+              }
+            } 
+            else{
+              return{
+                k:e.key,
+                idagent:e.payload.child('idagent').val(),
+                date:e.payload.child('date').val(),
+                consigne:e.payload.child('consigne').val(),
+                position:e.payload.child('position').val(),
+                presence:e.payload.child('presence').val(),
+                idclient:e.payload.child('idclient').val(),
+                status:e.payload.child('status').val(),
+                tempp: "ko"
+              }
+            }
+           
+      } 
+      else{
+        return{
+          k:e.key,
+          idagent:e.payload.child('idagent').val(),
+          date:e.payload.child('date').val(),
+          consigne:e.payload.child('consigne').val(),
+          position:e.payload.child('position').val(),
+          presence:e.payload.child('presence').val(),
+          idclient:e.payload.child('idclient').val(),
+          status:e.payload.child('status').val(),
+          tempp: "ko"
+        }
+      }
+  });
+  var planning1 = this.planning.filter(function (v) {
+    return (v.tempp == "ok");
+  });
+  if(planning1.length==''){
+    this.notif=false;
+  }
+  this.planningcust= planning1;
+  this.nbplan=this.planningcust.length ;
+},
+err => {})
+      }
+}
+public getrepporting(type,id){
+    if(type=="soustraitant"){
+            this.i=0;
+            this.notif=false;
+
+          this.fire.getreporting().subscribe(datarep => {
+           this.repport=datarep.map(erep=> {
+       
+              if (id== erep.payload.child('idsoustraitant').val()){
+                  if (erep.payload.child('vue').val()==="false"){
+                    this.notif=true;
+                    this.i++;
+                    return{
+                      k:erep.key,
+                      idagent:erep.payload.child('idagent').val(),
+                      tittle:erep.payload.child('tittle').val(),
+                      date:erep.payload.child('date').val(),
+                      contenu:erep.payload.child('contenu').val(),
+                      latitude:erep.payload.child('latitude').val(),
+                      logitude:erep.payload.child('logitude').val(),
+                      idclient:erep.payload.child('idclient').val(),
+                      idsoustraitant:erep.payload.child('idsoustraitant').val(),
+                      tempp: "ok"
+                    }
+                  }
+                  else{
+                    return{
+                      k:erep.key,
+                      idagent:erep.payload.child('idagent').val(),
+                      tittle:erep.payload.child('tittle').val(),
+                      date:erep.payload.child('date').val(),
+                      contenu:erep.payload.child('contenu').val(),
+                      latitude:erep.payload.child('latitude').val(),
+                      logitude:erep.payload.child('logitude').val(),
+                      idclient:erep.payload.child('idclient').val(),
+                      idsoustraitant:erep.payload.child('idsoustraitant').val(),
+                      tempp: "ko"
+                    }
+                  }
+            } 
+            else{
+              return{
+                k:erep.key,
+                idagent:erep.payload.child('idagent').val(),
+                tittle:erep.payload.child('tittle').val(),
+                date:erep.payload.child('date').val(),
+                contenu:erep.payload.child('contenu').val(),
+                latitude:erep.payload.child('latitude').val(),
+                logitude:erep.payload.child('logitude').val(),
+                idclient:erep.payload.child('idclient').val(),
+                idsoustraitant:erep.payload.child('idsoustraitant').val(),
+                tempp: "ko"
+              }
+            }
+             
+          });
+          var repport1 = this.repport.filter(function (v) {
+            return (v.tempp == "ok");
+          });
+          if(repport1.length==''){
+            this.notif=false;
+          }
+          this.repportcust= repport1;
+          this.nbrep=this.repportcust.length ;
+          },
+          err => {})
+        }
+}
+shownotif(data){
+  console.log('nb'+this.planningcust);
+  console.log('nb'+this.planning);
+        this.i=0;
+        this.notif=false;
+         for (let index = 0; index < data.length; index++) {
+            this.showToastWithCloseButton('REPPORTING: Contenu: '+ data[index].contenu +' , Idagent: '+ data[index].idagent + ' , Date: '+ data[index].date + ' , Titre: '+ data[index].tittle);
+            this.fire.updaterepporting(data[index].tittle,data[index].contenu,data[index].date,data[index].idagent,data[index].latitude,data[index].logitude,data[index].idsoustraitant,data[index].k);      
+        }
+}
+shownotifplan(data){
+  console.log(this.planningcust);
+  console.log(this.planning);
+              this.j=0;
+              this.notif=false;
+              for (let index = 0; index < data.length; index++) {
+                this.showToastWithCloseButton('PLANNING: Consigne: '+ data[index].consigne +' , Adresse: '+ data[index].position + data[index].date + ' , Date: '+ data[index].date );
+                this.fire.updateplanning(data[index].consigne,data[index].date,data[index].idagent,data[index].position,data[index].idclient,data[index].presence,data[index].status,data[index].k);
+              }
+              this.notif=false;
+}
 }

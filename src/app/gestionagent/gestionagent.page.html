@@ -1,36 +1,43 @@
 <ion-content>
 <ion-item style="margin-top:10px;">
-<div style="  text-align:center; margin :auto; width: 60%; height: 42%; margin-top: 59px; ">
+<div style="  text-align:center; margin :auto; width: 60%; height: 62%; margin-top: 69px; ">
   <h3>Gestion des information et accés des agents</h3>  
   <ion-button  color="primary" style="margin-right: -180px;" (click)="ajout()">Add</ion-button>
   <!-- style="margin-bottom: -100px;" -->
   
-  <ion-item style="height:811px; width: 128%; margin-top: 42px;" *ngIf=ajout1>
-    <h2 style="margin-bottom:615px;">Ajout utilisateur</h2>
-    <form (ngSubmit)="add(formadd.value)" style="margin-top:44px; margin-left: -120px" [formGroup]="formadd" >
+  <ion-item style="height:auto;width: 370px; margin-top: 35px; margin-left: 24PX;" *ngIf=ajout1>
+    <h2 style="margin-bottom: 697px; margin-right: -78px; width: 202px;">Ajout utilisateur</h2>
+    <form (ngSubmit)="add(formadd.value)" style="margin-top: 120px;; margin-left: -118px" [formGroup]="formadd" >
       <input type="hidden" formControlName="keadd"  >
-      <input type="hidden"  formControlName="mdpadd"  >
+      <h3>Type utilisateur</h3>
+      <select class="dropdown-primary" #typ id="type" matNativeControl required formControlName="typeadd" (change)="viewtype(typ.value);" required="required">
+        <option value="agent" >Agent</option>
+        <option value="soustraitant" >Sous traitant</option>
+        <option value="client"  >Client</option>
+      </select>
       <h3>Id utilisateur</h3>
-       <input type="text"  formControlName="idadd"  >
+       <input type="text"  formControlName="idadd" required="required" >
        <h3>Nom</h3>
-       <input type="text"  formControlName="nomadd" >
+       <input type="text"  formControlName="nomadd" required="required">
        <h3>Prenom</h3>
-       <input type="text"  formControlName="prenomadd" >
-       <h3>Type utilisateur</h3>
-          <select class="dropdown-primary" matNativeControl required formControlName="typeadd">
-            <option value="agent">Agent</option>
-            <option value="soustraitant">Sous traitant</option>
-            <option value="client">Client</option>
-          </select>
-       
+       <input type="text"  formControlName="prenomadd" required="required">    
        <h3>Login</h3>
-       <input type="text"  formControlName="loginadd" >
+       <input type="text"  formControlName="loginadd" required="required">
        <h3>Date de naissance</h3>
-       <input type="text" formControlName="dateadd" >
+       <input type="text" formControlName="dateadd" required="required">
+       <h3 *ngIf=testtype>Adresse</h3>
+       <input *ngIf=testtype type="text" [(ngModel)]="adressein"  formControlName="adresse" required="required">
+       <input *ngIf=!testtype type="hidden"  [(ngModel)]="adresseinit" formControlName="adresse" required="required">
        <h3>Mot de passe</h3>
-       <input type="password" formControlName="mdpadd" >
-       <ion-button style="margin-top:12px; margin-right: 33px;text-align:center" color="primary" type="submit" >Inserer</ion-button>
-       <ion-button  color="primary" style=" margin-left: -153px;  margin: inherit;  text-align:center" (click)="fermer()" >Annuler</ion-button>
+       <input type="password" formControlName="mdpadd" required="required">
+       <ion-button style="margin-top:40px; margin-right: 35px; width:85px; text-align:center; margin-bottom: 20px" color="primary" type="submit" >Inserer</ion-button>
+       <ion-button  color="primary" style=" margin-left: -153px; width:85px; margin: inherit; margin-top: 105px; text-align:center" (click)="fermer()" >Annuler</ion-button>
+       <div style= "background-color:lightgreen; height: 50px; margin-top: 25px;" *ngIf="showMessageadd">
+        Insertion réussi !
+      </div>
+      <div style= "background-color:lightsalmon; height: 50px; margin-top: 25px;" *ngIf="showMessageadderror">
+       Champs vide !
+      </div>
      </form>  
    </ion-item>
   <ion-item style="height:811px; width: 128%; margin-top: 42px;" *ngIf=modifi>
@@ -40,29 +47,35 @@
         <input type="hidden" [(ngModel)]="mdp" formControlName="mdp"  >
         <input type="hidden" [(ngModel)]="soustraitant" formControlName="soustraitant"  >
         <h3>Id utilisateur</h3>
-         <input type="text" [(ngModel)]="id" formControlName="id"  >
+         <input type="text" [(ngModel)]="id" formControlName="id" required="required" >
          <h3>Nom</h3>
-         <input type="text" [(ngModel)]="nom" formControlName="nom" >
+         <input type="text" [(ngModel)]="nom" formControlName="nom" required="required" >
          <h3>Prenom</h3>
-         <input type="text" [(ngModel)]="prenom"  formControlName="prenom" >
+         <input type="text" [(ngModel)]="prenom"  formControlName="prenom" required="required">
          <h3>Type utilisateur</h3>
-         <input type="text" [(ngModel)]="type" formControlName="type" >
+         <input type="text" [(ngModel)]="type" formControlName="type" required="required">
          <h3>Login</h3>
-         <input type="text" [(ngModel)]="login" formControlName="login" >
+         <input type="text" [(ngModel)]="login" formControlName="login" required="required">
          <h3>Date de naissance</h3>
-         <input type="text" [(ngModel)]="date" formControlName="date" >
+         <input type="text" [(ngModel)]="date" formControlName="date" required="required">
          <ion-button  color="primary" type="submit" >Enregistrer</ion-button>
          <ion-button  color="primary"  (click)="fermer()" >Annuler</ion-button>
+         <div style= "background-color:lightgreen; height: 50px;" *ngIf="showMessagemodif">
+          Modification réussi !
+        </div>
+        <div style= "background-color:lightsalmon; height: 50px; margin-top: 25px;" *ngIf="showMessagemodiferror">
+          Champs vide !
+         </div>
        </form>  
      </ion-item>
-  <ion-content style="height:800px; width: 128%; margin-top: 128px;" *ngIf=!modifi>
+  <ion-content style="height:800px; width: 128%; margin-top: 128px;" *ngIf=modifi1>
     <ion-list padding >
         <div style="background-color: lightgreen; height: 50px; margin-bottom: 15px; vertical-align: middle" *ngIf="showMessageModif">Modification reussi!!!</div>
       <ion-item *ngFor="let items of user" >
         <div  style="margin-bottom: 35px"><p style="margin:0"><b>Id utilisateur: </b>{{items.idagent}} &nbsp;&nbsp;</p> <p style="margin:0"> <b>Nom: </b>{{items.nomagent}} &nbsp;&nbsp; </p> <p style="margin:0"><b>Prénom: </b>{{items.prenomagent}}</p>
           <p style="margin:0"><b>Login: </b>{{items.login}} &nbsp;&nbsp;</p><p style="margin:0"><b>Date de naissance: </b>{{items.datenaissance}} &nbsp;&nbsp;</p><p style="margin:0"><b>Type utilisateur: </b>{{items.type}} &nbsp;&nbsp;</p>
           <ion-button color="secondary" (click)="modif(items.k,items.idagent,items.nomagent,items.prenomagent,items.login,items.datenaissance,items.type,items.mdp,items.soustraitant)">Modifier</ion-button><ion-button color="success" (click)="deleteuser(items.k)">Effacer</ion-button>
-          <div style= "background-color: lightsalmon; height: 50px;" *ngIf="showDeleteMessage">
+          <div style= "background-color: lightgreen; height: 50px;" *ngIf="showDeleteMessage">
             suppression réussi !
           </div>
         </div>
